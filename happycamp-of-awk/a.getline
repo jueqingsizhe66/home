@@ -1,0 +1,27 @@
+A．getline从整体上来说，应这么理解它的用法：
+          当其左右无重定向符 | 或 < 时，getline作用于当前文件，读入当前文件的第一行给其后跟的变量
+          var 或$0（无变量）；应该注意到，由于awk在处理getline之前已经读入了一行，所以getline得到
+          的返回结果是隔行的。
+          当其左右有重定向符 | 或 < 时，getline则作用于定向输入文件，由于该文件是刚打开，并没有被
+          awk读入一行，只是getline读入，那么getline返回的是该文件的第一行，而不是隔行。
+
+
+B．getline用法大致可分为三大类（每大类又分两小类），即总共有6种用法。代码如下：
+
+    awk ‘BEGIN{“cat data.txt”|getline d; print d}’ data2.txt
+    awk ‘BEGIN{“cat data.txt”|getline; print $0}’ data2.txt
+    awk ‘BEGIN{getline d < “data.txt”; print d}’ data2.txt
+    awk ‘BEGIN{getline < “data.txt”; print $0}’ data2.txt
+n
+以上四行代码均实现“只打印data.txt文件的第一行”（若打印全部行，用循环）
+j
+
+A．getline从整体上来说，应这么理解它的用法：
+          当其左右无重定向符 | 或 < 时，getline作用于当前文件，读入当前文件的第一行给其后跟的变量
+          var 或$0（无变量）；应该注意到，由于awk在处理getline之前已经读入了一行，所以getline得到
+          的返回结果是隔行的。
+          当其左右有重定向符 | 或 < 时，getline则作用于定向输入文件，由于该文件是刚打开，并没有被
+          awk读入一行，只是getline读入，那么getline返回的是该文件的第一行，而不是隔行。
+
+
+

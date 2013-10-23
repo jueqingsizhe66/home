@@ -1,0 +1,6 @@
+awk '{if($6!~/6/){tmp=$0}if($6~/6/){getline s;print tmp,$0,s;s=""}}' lines2
+aaa 1 2 3 4 5 6 bbb
+aaa 1 2 3 4 5 6 ccc
+aaa 1 2 3 4 5 6
+
+匹配项使用正则表达式

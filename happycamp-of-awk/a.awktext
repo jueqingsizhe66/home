@@ -1,0 +1,371 @@
+NR表示读到的文件行数
+FNR表示读到的当前文件行数
+
+NR==FNR 這個一般用於讀取兩個或者兩個以上的文件中，用於判斷是在讀取第一個文件。。
+
+F N R支持a w k目前操作的记录数。其变量值小于等于N R。如果脚本正在访问许多文件，
+每一新输入文件都将重新设置此变量。
+
+awk 'BEGIN{OFS=FS=":"} NR==FNR{a[$1]=$2}NR>FNR{$2=a[$1];print}' shadow passwd
+
+
+$ awk -F':' -f 3.awk 1 2
+s2002408030068:$1$d8NwFclG$v4ZTacfR2nsbC8BnVd3dn1:12676:0:99999:7:::
+s2002408032819:$1$UAvNbHza$481Arvk1FmixCP6ZBDWHh0:12676:0:99999:7:::
+s2002408032823:$1$U2eJ3oO1$bG.eKO8Zupe0TnyFhWX9Y.:12676:0:99999:7:::
+s2002408032825:$1$Y80OYsw9$tLs00LMYB.3iXtkmWBMpS1:12676:0:99999:7:::
+s2002408032826:$1$1rWMTTrf$tlZBdH/wm6iTew3abyrgt0:12753:0:99999:7:::
+s2002408032827:$1$3fH16Z63$irguqltdV5wfOMtNE1u851:12676:0:99999:7:::
+s2002408032828:$1$4rJAH5wg$ny5rMLPjhgatCZeE.X.AV.:12731:0:99999:7:::
+s2002408032829:$1$u2YoRF.k$M/48rlcatDEndtX0GHiXa/:12676:0:99999:7:::
+s2002408032830:$1$OC4KEc7A$k9IdiGN17DmiXFoSt2N6y/:12726:0:99999:7:::
+s2002408032831:$1$QNHbN41/$kvczM/s/y43utdzLaeBRa1:12676:0:99999:7:::
+s2002408032832:$1$75jz2Guw$Gqx/spna643z2jj7AnNgh0:12676:0:99999:7:::
+s2002408032833:$1$nc4On2Gr$gAMbbyUzmaqJFhMMzotdj/:12676:0:99999:7:::
+s2002408032834:$1$/kBQNLhR$.i2NYlJsASKziBVfC1RkJ1:12676:0:99999:7:::
+s2002408032835:$1$WLreEyGj$ZYTvC9QhK1tOWG336edoU1:12676:0:99999:7:::
+s2002408032836:$1$gwwa16SS$hmWziPfG3MmM94nTytniD1:12676:0:99999:7:::
+s2002408032837:$1$4sRK6lFd$kUy1K5.E9SyeY2vDy2Iv..:12676:0:99999:7:::
+s2002408032838:$1$y1rYmOzo$O4x.YFj.k..bki3hZa1CB1:12676:0:99999:7:::
+
+用于的例子
+$ awk -F':' -f 3.awk 2 1
+s2002408030068:$1$d8NwFclG$v4ZTacfR2nsbC8BnVd3dn1:12676:0:99999:7:::
+s2002408032819:$1$UAvNbHza$481Arvk1FmixCP6ZBDWHh0:12676:0:99999:7:::
+s2002408032823:$1$U2eJ3oO1$bG.eKO8Zupe0TnyFhWX9Y.:12676:0:99999:7:::
+s2002408032825:$1$Y80OYsw9$tLs00LMYB.3iXtkmWBMpS1:12676:0:99999:7:::
+s2002408032826:$1$1rWMTTrf$tlZBdH/wm6iTew3abyrgt0:12753:0:99999:7:::
+s2002408032827:$1$3fH16Z63$irguqltdV5wfOMtNE1u851:12676:0:99999:7:::
+s2002408032828:$1$4rJAH5wg$ny5rMLPjhgatCZeE.X.AV.:12731:0:99999:7:::
+s2002408032829:$1$u2YoRF.k$M/48rlcatDEndtX0GHiXa/:12676:0:99999:7:::
+s2002408032830:$1$OC4KEc7A$k9IdiGN17DmiXFoSt2N6y/:12726:0:99999:7:::
+s2002408032831:$1$QNHbN41/$kvczM/s/y43utdzLaeBRa1:12676:0:99999:7:::
+s2002408032832:$1$75jz2Guw$Gqx/spna643z2jj7AnNgh0:12676:0:99999:7:::
+s2002408032833:$1$nc4On2Gr$gAMbbyUzmaqJFhMMzotdj/:12676:0:99999:7:::
+s2002408032834:$1$/kBQNLhR$.i2NYlJsASKziBVfC1RkJ1:12676:0:99999:7:::
+s2002408032835:$1$WLreEyGj$ZYTvC9QhK1tOWG336edoU1:12676:0:99999:7:::
+s2002408032836:$1$gwwa16SS$hmWziPfG3MmM94nTytniD1:12676:0:99999:7:::
+s2002408032837:$1$4sRK6lFd$kUy1K5.E9SyeY2vDy2Iv..:12676:0:99999:7:::
+s2002408032838:$1$y1rYmOzo$O4x.YFj.k..bki3hZa1CB1:12676:0:99999:7:::
+
+无论1 2 file前后顺序是否发生改变最后结果还是一样
+
+
+
+root at xinran-N53SM in /home exited 2
+$ awk -F'[/,]' 'NR==NFR{a[NR]};NR>FNR{($2 in a);print $0}' b.txt a.txt
+10/05766798607,11/20050325191329,29/0.1,14/05766798607
+10/05767158557,11/20050325191329,29/0.08,14/05767158557 
+
+有毛病的一个例子
+
+
+root at xinran-N53SM in /home
+$ awk 'NR==FNR{a[$1]=$1}NR>FNR{for (i in a) {if(match($0,i)) print $0}}' b.txt a.txt
+10/05766798607,11/20050325191329,29/0.1,14/05766798607
+
+这是上面毛病句子的替代品
+
+NR是指已经处理的记录数目
+FNR是指当前文件已经处理的记录数目
+由于共有两个文件，所以当处理第一个文件的时候NR与FNR是相等的
+处理第二个文件的时候NR是大于FNR的，此时的NR=文件一的记录数目+FNR
+
+root at xinran-N53SM in /home
+$ awk -F'[/,]' 'NR==FNR{a[$0]=$0}NR>FNR&&($2 in a){print $0}' b.txt a.txt
+10/05766798607,11/20050325191329,29/0.1,14/05766798607
+纠正了上买你的小毛病！！！！
+
+有一想法：我如何组装  先把文件的内容存入一巨型数组   然后在打印输出
+
+：# awk '{print NR,$0}' file1 file2
+下面这个例子能够说明NR 和FNR的区别
+awk '{print NR,$0}' file1
+1 a b c d
+2 a b d c
+3 a c b d
+4 a c d b
+5 a d c b
+6 a d b c
+
+但是对于多个文件 ：# awk '{print NR,$0}' file1 file2
+1 a b c d
+2 a b d c
+3 a c b d
+4 a c d b
+5 a d c b
+6 a d b c
+7 aa bb cc dd
+8 aa bb dd cc
+9 aa cc bb dd
+10 aa cc dd bb
+11 aa dd bb cc
+12 aa dd cc bb
+
+# awk '{print FNR,$0}' file1 file2
+1 a b c d
+2 a b d c
+3 a c b d
+4 a c d b
+5 a d c b
+6 a d b c
+1 aa bb cc dd
+2 aa bb dd cc
+3 aa cc bb dd
+4 aa cc dd bb
+5 aa dd bb cc
+
+这也是一个很好的例子说明那个 NR FNR
+    [root@bj_manager test]# awk '{print NR,FNR}' test.txt test2.txt
+    1 1
+    2 2
+    3 3
+    4 4
+    5 5
+    6 6
+    7 7
+    8 8
+    9 9
+    10 10
+    11 11
+    12 1
+    13 2
+    14 3
+    15 4
+    16 5
+    17 6
+    18 7
+    19 8
+
+#!/bin/awk
+
+{
+
+for (i = 1; i <= NF; i++)
+#支持for循环
+used[$i] = 1
+
+}
+
+END {
+
+for (x in used)
+
+if (length(x) > 10) {
+
+++num_long_words
+
+print x
+
+} print num_long_words, “words longer than 10 characters”
+
+} 
+
+http://www.chinaunix.net/old_jh/24/577044.html
+
+我自己想出来的一个例子
+$ awk 'NR==FNR{print $1}NR>FNR{print "2de",$0}' a.txt b.txt
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+2de         2
+2de         3
+2de         4
+2de         5
+2de         6
+2de         7
+2de         8
+2de         9
+2de         10
+2de         11
+2de         12
+2de         13
+2de         14
+2de         15
+2de         16
+2de         17
+2de         18
+2de         19
+2de         20
+2de         21
+2de         22
+2de         23
+2de         24
+2de         25
+2de         26
+2de         27
+2de         28
+2de         29
+2de         30
+2de         31
+2de         32
+2de         33
+2de         34
+2de         35
+2de         36
+2de         37
+2de         38
+2de         39
+2de         40
+2de         41
+2de         42
+2de         43
+2de         44
+2de         45
+2de         46
+2de         47
+2de         48
+2de         49
+2de         50
+2de         51
+2de         52
+2de         53
+2de         54
+2de         55
+2de         56
+2de         57
+2de         58
+2de         59
+2de         60
+2de         61
+2de         62
+2de         63
+2de         64
+2de         65
+2de         66
+2de         67
+2de         68
+2de         69
+2de         70
+2de         71
+2de         72
+2de         73
+2de         74
+2de         75
+2de         76
+2de         77
+2de         78
+2de         79
+2de         80
+2de         81
+2de         82
+2de         83
+2de         84
+2de         85
+2de         86
+2de         87
+2de         88
+2de         89
+2de         90
+2de         91
+2de         92
+2de         93
+2de         94
+2de         95
+2de         96
+2de         97
+2de         98
+2de         99
+2de         100
+2de         101
+2de         102
+2de         103
